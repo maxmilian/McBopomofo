@@ -40,3 +40,13 @@ xcodebuild -project McBopomofo.xcodeproj \
 - `InputState.Deactivated` — input method deactivated
 
 Any logic that checks "is the input buffer empty?" must account for all three.
+
+## Input Logging Notes
+
+All committed text is logged via `InputLogger.shared` in `InputMethodController.swift`'s Committing handler.
+
+- Log path: `~/Library/Logs/McBopomofo/input-log-YYYY-MM.tsv`
+- Format: `timestamp \t reading \t text` (TSV, UTF-8)
+- Reading is extracted from `_latestWalk.nodes` via `_walkReadingString` in `KeyHandler.mm` — must be called **before** `[self clear]` which wipes `_latestWalk`
+- Non-Bopomofo commits (alphanumeric, punctuation, space) have empty reading column
+- `InputState.Committing` carries both `poppedText` and `reading`; the single-arg `init(poppedText:)` defaults reading to `""`

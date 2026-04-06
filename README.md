@@ -1,6 +1,6 @@
 # McBopomofo (Fork)
 
-Fork of [openvanilla/McBopomofo](https://github.com/openvanilla/McBopomofo) — macOS 注音輸入法，新增簡拼輸入、免聲調輸入、SHIFT 中英切換等功能。
+Fork of [openvanilla/McBopomofo](https://github.com/openvanilla/McBopomofo) — macOS 注音輸入法，新增簡拼輸入、免聲調輸入、SHIFT 中英切換、輸入紀錄等功能。
 
 ## New Features
 
@@ -32,6 +32,16 @@ Fork of [openvanilla/McBopomofo](https://github.com/openvanilla/McBopomofo) — 
 - 正確處理 SHIFT+modifier 組合鍵（不誤觸發）、CapsLock 共存
 - 支援所有「空」狀態下切換（含 backspace 清空後的 `EmptyIgnoringPreviousState`）
 
+### Input Logging (輸入紀錄)
+
+自動記錄每次 commit 的文字與注音 reading，產出 TSV 檔供詞頻分析，用於改善候選詞排序。
+
+- 記錄格式：`timestamp \t reading \t text`（TSV）
+- 檔案位置：`~/Library/Logs/McBopomofo/input-log-YYYY-MM.tsv`
+- 按月自動 rotate，預設開啟、無 UI 開關
+- `InputLogger` singleton 透過 `DispatchQueue` 非同步寫入
+- `InputState.Committing` 擴充 `reading` 屬性，從 `_latestWalk` 在 `[self clear]` 前擷取注音
+
 ## Build & Install
 
 ```bash
@@ -52,6 +62,8 @@ Or open `McBopomofo.xcodeproj` in Xcode, select **McBopomofoInstaller** scheme, 
 
 | Commit | Description |
 |--------|-------------|
+| `a456493` | feat: add input logging for word frequency analysis |
+| `f11d3df` | fix: SHIFT toggle not working after backspace clears buffer |
 | `c03030f` | fix: address code review issues in SHIFT toggle |
 | `02e9497` | feat: add SHIFT key toggle between Bopomofo and alphanumeric modes |
 | `424e2c1` | chore: add test tools for abbreviated input testing |
