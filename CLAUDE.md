@@ -41,6 +41,14 @@ xcodebuild -project McBopomofo.xcodeproj \
 
 Any logic that checks "is the input buffer empty?" must account for all three.
 
+## SHIFT Toggle During Active Input
+
+Bare SHIFT press during active input (Inputting, Marking, ChoosingCandidate, etc.) abandons the current Chinese input and switches to alphanumeric mode. Implementation in `InputMethodController.swift` `handle(_:client:)` flagsChanged handler:
+
+1. `keyHandler.clear()` — clears BPMF reading buffer and grid
+2. Transition to `EmptyIgnoringPreviousState` — clears composing buffer on screen
+3. `isAlphanumericMode = true` — switches to English passthrough
+
 ## Input Logging Notes
 
 All committed text is logged via `InputLogger.shared` in `InputMethodController.swift`'s Committing handler.

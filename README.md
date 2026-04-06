@@ -31,6 +31,7 @@ Fork of [openvanilla/McBopomofo](https://github.com/openvanilla/McBopomofo) — 
 - 切換輸入法時自動重設為注音模式
 - 正確處理 SHIFT+modifier 組合鍵（不誤觸發）、CapsLock 共存
 - 支援所有「空」狀態下切換（含 backspace 清空後的 `EmptyIgnoringPreviousState`）
+- **輸入中按 SHIFT 放棄中文**：注音輸入到一半時按 SHIFT，自動放棄當前中文輸入並切換至英數模式
 
 ### Input Logging (輸入紀錄)
 

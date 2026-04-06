@@ -249,6 +249,12 @@ class McBopomofoInputMethodController: IMKInputController {
                         isAlphanumericMode.toggle()
                         let message = isAlphanumericMode ? "英數" : "注音"
                         NotifierController.notify(message: message)
+                    } else {
+                        // Abandon current Chinese input and switch to alphanumeric mode
+                        keyHandler.clear()
+                        handle(state: InputState.EmptyIgnoringPreviousState(), client: client)
+                        isAlphanumericMode = true
+                        NotifierController.notify(message: "英數")
                     }
                 } else {
                     // Other modifiers involved — not a bare SHIFT press
